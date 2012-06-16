@@ -1,10 +1,23 @@
 <html>
 	<head>
 		<title>Arduino Power Supply Simulator</title>
+		<script type="text/javascript" src="jQuery/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="jQuery/jquery-ui-1.8.21.custom.min.js"></script>
+		<script type="text/javascript" src="ArduinoPwrSim.js"></script>
 	</head>
 
 	<body>
+		<div id="ArduinoImage" style="width:600px; height:600px;">
+			<img src="Arduino_Duemilanove.png" style="position:absolute; left:150px; top:50px;"/>
+			<div style="position:absolute; left:75px; top:75px;">Vusb:<BR> <input id="Vusb" value="5.00" size="5" /></div>
+			
+			<div style="position:absolute; left:75px; top:275px;">Barrel Jack:<BR> <input id="Vbarrel" value = "0.00" size="5"/> </div>
 
-	</body>
-
+			<div style="position:absolute; left:325px; top:350px;">3V3:<BR> <input id="3V3" value="3.33" size="5"/> </div>
+			
+			<div style="position:absolute; left:400px; top:350px;">5V:<BR> <input id="5V0" value="5.00" size="5"/> </div>
+			
+			<div style="position:absolute; left:475px; top:350px;">Vin:<BR> <input id="Vin" value="0.00" size="5" /> </div>
+		</div>
+	</body>	
 </html>
