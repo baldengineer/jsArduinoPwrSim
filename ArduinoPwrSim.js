@@ -28,6 +28,12 @@ var Vin		= 0.00;
 var V3		= 0.00;
 var V5		= 0.00;
 
+var VusbCheck = false;
+var BarrelCheck = false;
+var V3Check = false;
+var V5Check = false;
+var VinCheck = false;
+
 function calc5V(input) {
 	if (input >= 6.5) {
 		return input - (input - 5.0);	
@@ -94,13 +100,102 @@ function displayValues() {
 	$j("#Vusb").val(Vusb.toFixed(2));
 	$j("#Vbarrel").val(Vbarrel.toFixed(2));
 	$j("#Vin").val(Vin.toFixed(2));
-	$j("#3V3").val(V3.toFixed(2));
-	$j("#5V0").val(V5.toFixed(2));
+	$j("#V3").val(V3.toFixed(2));
+	$j("#V5").val(V5.toFixed(2));
+}
+
+function getButtonValues() {
+	VusbCheck = $j("#VusbCheck").is(':checked');
+	BarrelCheck = $j("#BarrelCheck").is(':checked');
+	V3Check = $j("#V3Check").is(':checked');
+	V5Check = $j("#V5Check").is(':checked');
+	VinCheck = $j("#VinCheck").is(':checked');
+	updateSouceButtons();
+}
+
+function updateSouceButtons() {
+	$j("#VusbCheck").attr('checked', VusbCheck).button("refresh");
+	$j("#Vusb").attr('disabled', !VusbCheck);
+	
+	$j("#BarrelCheck").attr('checked', BarrelCheck).button("refresh");
+	$j("#Vbarrel").attr('disabled', !BarrelCheck);
+		
+	$j("#V3Check").attr('checked', V3Check).button("refresh");
+	$j("#V3").attr('disabled', !V3Check);
+		
+	$j("#V5Check").attr('checked', V5Check).button("refresh");
+	$j("#V5").attr('disabled', !V5Check);
+		
+	$j("#VinCheck").attr('checked', VinCheck).button("refresh");
+	$j("#Vin").attr('disabled', !VinCheck);
+}
+
+function setAllSources(toggleValue) {
+	if (toggleValue == "toggle") {
+		VusbCheck = !VusbCheck;
+		BarrelCheck = !BarrelCheck;
+		V3Check = !V3Check;
+		V5Check = !V5Check;
+		VinCheck = !VinCheck;
+	} else {
+		VusbCheck = toggleValue;
+		BarrelCheck = toggleValue;
+		V3Check = toggleValue;
+		V5Check = toggleValue;
+		VinCheck = toggleValue;
+	}
+	updateSouceButtons();
 }
 
 $j(function(){
-	// Hook into the input boxes changing.
+	// Setup UI ELements
+	$j("#ResetAll").button().click(function() {
+		setAllSources(false);
+	});
 	
+	
+	$j( "#VusbCheck" ).button({
+            icons: {
+                primary: "ui-icon-power"
+            },
+            text: false
+		}).click(function() {
+			getButtonValues();
+	});
+	$j("#BarrelCheck").button({
+	            icons: {
+	                primary: "ui-icon-power"
+	            },
+	            text: false
+		}).click(function() {
+			getButtonValues();
+	});
+	$j("#V3Check").button({
+	            icons: {
+	                primary: "ui-icon-power"
+	            },
+	            text: false
+		}).click(function() {
+			getButtonValues();
+	});
+	$j("#V5Check").button({
+	            icons: {
+	                primary: "ui-icon-power"
+	            },
+	            text: false
+		}).click(function() {
+			getButtonValues();
+	});
+	$j("#VinCheck").button({
+	            icons: {
+	                primary: "ui-icon-power"
+	            },
+	            text: false
+		}).click(function() {
+			getButtonValues();
+	});
+	
+	// Hook into the input boxes changing.
 	$j("#Vusb").blur(function() { 
 		Vusb = parseFloat($j("#Vusb").val());
 		calculateNodes(1);
@@ -114,15 +209,19 @@ $j(function(){
 	$j("#Vin").blur(function() { 
 		Vin = parseFloat($j("#Vin").val());
 		calculateNodes(3);
-
 	});
 	
-	$j("#3V3").blur(function() { 
-		V3 = parseFloat($j("#3V3").val());
+	$j("#V3").blur(function() { 
+		V3 = parseFloat($j("#V3").val());
+		calculateNodes(4);
 	});
 	
-	$j("#5V0").blur(function() { 
-		V5 = parseFloat($j("#5V0").val());
+	$j("#V5").blur(function() { 
+		V5 = parseFloat($j("#V5").val());
+		calculateNodes(5);
 	});
 	
+	// Initilize UI controls just the way I like them
+	setAllSources(false);
 });
+
